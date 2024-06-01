@@ -1,4 +1,6 @@
 let names = [];
+let filterWeather = false;
+
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 let startAngle = 0;
@@ -7,7 +9,7 @@ function addName() {
     const nameInput = document.getElementById('nameInput');
     const name = nameInput.value.trim();
     if (name) {
-        names.push(name);
+        names.push({ name: name, weather: false });
         nameInput.value = '';
         updateNameList();
         drawWheel();
@@ -20,24 +22,33 @@ function removeName(index) {
     drawWheel();
 }
 
+function toggleWeather(index) {
+    names[index].weather = !names[index].weather;
+    updateNameList();
+}
+
 function updateNameList() {
     const nameList = document.getElementById('nameList');
     nameList.innerHTML = '';
-    names.forEach((name, index) => {
+    names.forEach((nameObj, index) => {
         const li = document.createElement('li');
-        li.textContent = name;
+        li.innerHTML = `
+            <span>${nameObj.name}</span>
+            <input type="checkbox" class="weather-checkbox" ${nameObj.weather ? 'checked' : ''} onclick="toggleWeather(${index})">
+        `;
         li.onclick = () => removeName(index);
         nameList.appendChild(li);
     });
 }
 
 function drawWheel() {
-    const numSegments = names.length;
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
+    const numSegments = filteredNames.length;
     const anglePerSegment = (2 * Math.PI) / numSegments;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    names.forEach((name, index) => {
+    filteredNames.forEach((nameObj, index) => {
         const angle = startAngle + index * anglePerSegment;
         ctx.beginPath();
         ctx.moveTo(canvas.width / 2, canvas.height / 2);
@@ -52,7 +63,7 @@ function drawWheel() {
         ctx.textAlign = "right";
         ctx.fillStyle = "#000";
         ctx.font = "16px Arial";
-        ctx.fillText(name, canvas.width / 2 - 10, 0);
+        ctx.fillText(nameObj.name, canvas.width / 2 - 10, 0);
         ctx.restore();
     });
 }
@@ -67,6 +78,7 @@ function getRandomColor() {
 }
 
 function spin() {
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
     const spinAngleStart = Math.random() * 10 + 10;
@@ -87,10 +99,16 @@ function spin() {
 
         if (currentTime >= spinTime) {
             clearInterval(spinInterval);
-            const numSegments = names.length;
+            const numSegments = filteredNames.length;
             const anglePerSegment = (2 * Math.PI) / numSegments;
             const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
-            alert(`The selected name is: ${names[selectedSegment]}`);
+            alert(`The selected name is: ${filteredNames[selectedSegment].name}`);
         }
     }, interval);
 }
+
+function toggleWeatherFilter() {
+    filterWeather = document.getElementById('weatherFilter').checked;
+    drawWheel();
+}
+
