@@ -15,7 +15,7 @@ function addName() {
     const nameInput = document.getElementById('nameInput');
     const name = nameInput.value.trim();
     if (name) {
-        names.push({ name: name, weather: false });
+        names.push({ name: name, weather: false, color: getRandomColor() });
         nameInput.value = '';
         saveNames();
         updateNameList();
@@ -62,7 +62,7 @@ function drawWheel() {
         ctx.beginPath();
         ctx.moveTo(canvas.width / 2, canvas.height / 2);
         ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, angle, angle + anglePerSegment);
-        ctx.fillStyle = getRandomColor();
+        ctx.fillStyle = nameObj.color;
         ctx.fill();
         ctx.stroke();
 
@@ -131,5 +131,3 @@ function loadNames() {
         names = JSON.parse(savedNames);
     }
 }
-
-
