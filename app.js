@@ -5,12 +5,19 @@ const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 let startAngle = 0;
 
+document.addEventListener('DOMContentLoaded', () => {
+    loadNames();
+    updateNameList();
+    drawWheel();
+});
+
 function addName() {
     const nameInput = document.getElementById('nameInput');
     const name = nameInput.value.trim();
     if (name) {
         names.push({ name: name, weather: false });
         nameInput.value = '';
+        saveNames();
         updateNameList();
         drawWheel();
     }
@@ -18,12 +25,14 @@ function addName() {
 
 function removeName(index) {
     names.splice(index, 1);
+    saveNames();
     updateNameList();
     drawWheel();
 }
 
 function toggleWeather(index) {
     names[index].weather = !names[index].weather;
+    saveNames();
     updateNameList();
 }
 
@@ -111,4 +120,16 @@ function toggleWeatherFilter() {
     filterWeather = document.getElementById('weatherFilter').checked;
     drawWheel();
 }
+
+function saveNames() {
+    localStorage.setItem('names', JSON.stringify(names));
+}
+
+function loadNames() {
+    const savedNames = localStorage.getItem('names');
+    if (savedNames) {
+        names = JSON.parse(savedNames);
+    }
+}
+
 
