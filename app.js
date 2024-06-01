@@ -14,12 +14,19 @@ function addName() {
     }
 }
 
+function removeName(index) {
+    names.splice(index, 1);
+    updateNameList();
+    drawWheel();
+}
+
 function updateNameList() {
     const nameList = document.getElementById('nameList');
     nameList.innerHTML = '';
     names.forEach((name, index) => {
         const li = document.createElement('li');
         li.textContent = name;
+        li.onclick = () => removeName(index);
         nameList.appendChild(li);
     });
 }
@@ -80,7 +87,9 @@ function spin() {
 
         if (currentTime >= spinTime) {
             clearInterval(spinInterval);
-            const selectedSegment = Math.floor((startAngle + Math.PI / numSegments) / anglePerSegment) % numSegments;
+            const numSegments = names.length;
+            const anglePerSegment = (2 * Math.PI) / numSegments;
+            const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
             alert(`The selected name is: ${names[selectedSegment]}`);
         }
     }, interval);
