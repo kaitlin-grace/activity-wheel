@@ -13,10 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function addName() {
     const nameInput = document.getElementById('nameInput');
+    const weatherInput = document.getElementById('weatherInput');
     const name = nameInput.value.trim();
+    const weather = weatherInput.checked;
+
     if (name) {
-        names.push({ name: name, weather: false, color: getRandomColor() });
+        names.push({ name: name, weather: weather, color: getRandomColor() });
         nameInput.value = '';
+        weatherInput.checked = false; // Reset the weather checkbox
         saveNames();
         updateNameList();
         drawWheel();
