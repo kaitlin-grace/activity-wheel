@@ -43,19 +43,24 @@ function toggleWeather(index) {
 function updateNameList() {
     const nameList = document.getElementById('nameList');
     nameList.innerHTML = '';
-    names.forEach((nameObj, index) => {
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
+    filteredNames.forEach((nameObj, index) => {
         const li = document.createElement('li');
         li.innerHTML = `
             <span>${nameObj.name}</span>
             <input type="checkbox" class="weather-checkbox" ${nameObj.weather ? 'checked' : ''} onclick="toggleWeather(${index})">
         `;
-        li.onclick = () => removeName(index);
+        li.onclick = (e) => {
+            if (e.target.tagName !== 'INPUT') {
+                removeName(index);
+            }
+        };
         nameList.appendChild(li);
     });
 }
 
 function drawWheel() {
-    const filteredNames = filterWeather ? names.filter(name => !name.weather) : names;
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
     const numSegments = filteredNames.length;
     const anglePerSegment = (2 * Math.PI) / numSegments;
 
@@ -91,7 +96,7 @@ function getRandomColor() {
 }
 
 function spin() {
-    const filteredNames = filterWeather ? names.filter(name => !name.weather) : names;
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
     const spinAngleStart = Math.random() * 10 + 10;
@@ -122,6 +127,7 @@ function spin() {
 
 function toggleWeatherFilter() {
     filterWeather = document.getElementById('weatherFilter').checked;
+    updateNameList();
     drawWheel();
 }
 
