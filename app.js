@@ -85,7 +85,6 @@ function drawWheel() {
         ctx.restore();
     });
 }
-
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -94,7 +93,6 @@ function getRandomColor() {
     }
     return color;
 }
-
 function spin() {
     const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
     const spins = Math.floor(Math.random() * 10) + 5;
