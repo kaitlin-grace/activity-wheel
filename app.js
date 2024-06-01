@@ -55,7 +55,7 @@ function updateNameList() {
 }
 
 function drawWheel() {
-    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
+    const filteredNames = filterWeather ? names.filter(name => !name.weather) : names;
     const numSegments = filteredNames.length;
     const anglePerSegment = (2 * Math.PI) / numSegments;
 
@@ -91,7 +91,7 @@ function getRandomColor() {
 }
 
 function spin() {
-    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
+    const filteredNames = filterWeather ? names.filter(name => !name.weather) : names;
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
     const spinAngleStart = Math.random() * 10 + 10;
