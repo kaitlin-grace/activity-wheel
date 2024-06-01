@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name Wheel</title>
+    <title><3 Kait and Riley Activity Wheel <3</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,8 +50,13 @@
             padding: 0;
         }
         #nameList li {
+            display: flex;
+            justify-content: space-between;
             margin: 5px 0;
             cursor: pointer;
+        }
+        .weather-checkbox {
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -65,10 +70,13 @@
             <input type="text" id="nameInput" placeholder="Enter name">
             <button onclick="addName()">Add Name</button>
             <button onclick="spin()">Spin</button>
+            <label>
+                Filter by Weather
+                <input type="checkbox" id="weatherFilter" onchange="toggleWeatherFilter()">
+            </label>
         </div>
         <ul id="nameList"></ul>
     </div>
     <script src="app.js"></script>
 </body>
 </html>
-
