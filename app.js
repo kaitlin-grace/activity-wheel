@@ -11,7 +11,10 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let names = [];
+let names = [
+    { name: 'hiking', weather: false, color: getRandomColor() },
+    { name: 'kayaking', weather: false, color: getRandomColor() }
+];
 
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
@@ -30,11 +33,6 @@ async function loadNamesFromFirestore() {
             console.log('Names loaded from Firestore:', names);
         } else {
             console.log('No document found in Firestore. Using default names.');
-            // Populate names with default values
-            names = [
-                { name: 'hiking', weather: false, color: getRandomColor() },
-                { name: 'kayaking', weather: false, color: getRandomColor() }
-            ];
             // Save default names to Firestore
             await saveNamesToFirestore();
         }
