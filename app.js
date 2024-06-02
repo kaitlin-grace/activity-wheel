@@ -1,7 +1,7 @@
 let names = [
     { name: 'hiking', weather: false, color: getRandomColor() },
-    { name: 'kayaking', weather: false, color: getRandomColor() },
-    { name: 'comedy', weather: false, color: getRandomColor() },];
+    { name: 'kayaking', weather: false, color: getRandomColor() }
+];
 let filterWeather = false;
 
 const canvas = document.getElementById('wheelCanvas');
@@ -9,7 +9,7 @@ const ctx = canvas.getContext('2d');
 let startAngle = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadNames();
+    // Call updateNameList and drawWheel after setting the initial names
     updateNameList();
     drawWheel();
 });
@@ -24,7 +24,6 @@ function addName() {
         names.push({ name: name, weather: weather, color: getRandomColor() });
         nameInput.value = '';
         weatherInput.checked = false; // Reset the weather checkbox
-        saveNames();
         updateNameList();
         drawWheel();
     }
@@ -32,14 +31,12 @@ function addName() {
 
 function removeName(index) {
     names.splice(index, 1);
-    saveNames();
     updateNameList();
     drawWheel();
 }
 
 function toggleWeather(index) {
     names[index].weather = !names[index].weather;
-    saveNames();
     updateNameList();
 }
 
@@ -88,6 +85,7 @@ function drawWheel() {
         ctx.restore();
     });
 }
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -96,39 +94,6 @@ function getRandomColor() {
     }
     return color;
 }
-function spin() {
-    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
-    const spins = Math.floor(Math.random() * 10) + 5;
-    const spinTime = 3000;
-    const spinAngleStart = Math.random() * 10 + 10;
-    const spinAngleEnd = Math.random() * 10 + 5;
 
-    let currentAngle = startAngle;
-    let currentTime = 0;
-    const interval = 30;
-
-    const spinInterval = setInterval(() => {
-        currentTime += interval;
-        const spinProgress = currentTime / spinTime;
-        const easeInOut = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        const angleDelta = easeInOut(spinProgress) * (spinAngleEnd - spinAngleStart) + spinAngleStart;
-        currentAngle += angleDelta;
-        startAngle = currentAngle % (2 * Math.PI);
-        drawWheel();
-
-        if (currentTime >= spinTime) {
-            clearInterval(spinInterval);
-            const numSegments = filteredNames.length;
-            const anglePerSegment = (2 * Math.PI) / numSegments;
-            const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
-            alert(`The selected name is: ${filteredNames[selectedSegment].name}`);
-        }
-    }, interval);
-}
-
-function toggleWeatherFilter() {
-    filterWeather = document.getElementById('weatherFilter').checked;
-    updateNameList();
-    drawWheel();
-}
+function spin(
 
