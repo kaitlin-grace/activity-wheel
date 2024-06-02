@@ -1,4 +1,7 @@
-let names = [];
+let names = [
+    { name: 'hiking', weather: false, color: getRandomColor() },
+    { name: 'kayaking', weather: false, color: getRandomColor() },
+    { name: 'comedy', weather: false, color: getRandomColor() },];
 let filterWeather = false;
 
 const canvas = document.getElementById('wheelCanvas');
@@ -129,13 +132,3 @@ function toggleWeatherFilter() {
     drawWheel();
 }
 
-function saveNames() {
-    localStorage.setItem('names', JSON.stringify(names));
-}
-
-function loadNames() {
-    const savedNames = localStorage.getItem('names');
-    if (savedNames) {
-        names = JSON.parse(savedNames);
-    }
-}
