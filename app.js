@@ -11,10 +11,7 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let names = [
-    { name: 'hiking', weather: false, color: getRandomColor() },
-    { name: 'kayaking', weather: false, color: getRandomColor() }
-];
+let names = [];
 
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
@@ -22,8 +19,7 @@ let startAngle = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM fully loaded and parsed');
-    await loadNamesFromFirestore(); // Load names from Firestore
-    drawWheel(); // Draw the wheel after loading names
+    await loadNamesFromFirestore();
 });
 
 async function loadNamesFromFirestore() {
@@ -42,6 +38,7 @@ async function loadNamesFromFirestore() {
             // Save default names to Firestore
             await saveNamesToFirestore();
         }
+        drawWheel(); // Draw the wheel after loading names
     } catch (error) {
         console.error('Error loading names from Firestore:', error);
     }
