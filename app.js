@@ -72,10 +72,17 @@ function drawWheel() {
 // Save names array to Firestore
 async function saveNamesToFirestore() {
     try {
-        await db.collection('names').doc('activityNames').set({ names: names });
+        const firestoreRef = db.collection('names').doc('activityNames');
+        console.log('Attempting to save names to Firestore:', names);
+        await firestoreRef.set({ names: names });
         console.log('Names saved to Firestore:', names);
     } catch (error) {
         console.error('Error saving names to Firestore:', error);
+        if (error.code === 'permission-denied') {
+            console.error('Permission denied. Please check your Firestore security rules.');
+        } else {
+            console.error('An error occurred:', error);
+        }
     }
 }
 
