@@ -122,7 +122,7 @@ function spin() {
             const numSegments = filteredNames.length;
             const anglePerSegment = (2 * Math.PI) / numSegments;
             const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
-            alert(`The selected name is: ${filteredNames[selectedSegment].name}`);
+            alert(`The selected activity is: ${filteredNames[selectedSegment].name}`);
         }
     }, interval);
 }
