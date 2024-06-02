@@ -68,6 +68,18 @@ function addName() {
         saveNamesToFirestore(); // Save names to Firestore after updating
     }
 }
+
+// Save names array to Firestore
+async function saveNamesToFirestore() {
+    try {
+        await db.collection('names').doc('activityNames').set({ names: names });
+        console.log('Names saved to Firestore:', names);
+    } catch (error) {
+        console.error('Error saving names to Firestore:', error);
+    }
+}
+
+
 function removeName(index) {
     names.splice(index, 1);
     updateNameList();
