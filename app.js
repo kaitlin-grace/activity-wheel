@@ -1,3 +1,17 @@
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBwMJBgT8o79WqIo_FenBxTnOZUMLN69mc",
+  authDomain: "backend-activity-wheel.firebaseapp.com",
+  projectId: "backend-activity-wheel",
+  storageBucket: "backend-activity-wheel.appspot.com",
+  messagingSenderId: "364459720561",
+  appId: "1:364459720561:web:c08e03c746b08c642c00d0"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 let names = [
     { name: 'hiking', weather: false, color: getRandomColor() },
     { name: 'kayaking', weather: false, color: getRandomColor() }
@@ -8,11 +22,36 @@ const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
 let startAngle = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM fully loaded and parsed');
     updateNameList();
     drawWheel();
+    await loadChosenCounts();
 });
+
+async function saveChosenName(name) {
+    const chosenRef = db.collection('chosenNames').doc(name);
+    const doc = await chosenRef.get();
+    if (doc.exists) {
+        const currentCount = doc.data().count;
+        await chosenRef.update({ count: currentCount + 1 });
+    } else {
+        await chosenRef.set({ count: 1 });
+    }
+    await loadChosenCounts();
+}
+
+async function loadChosenCounts() {
+    const chosenList = document.getElementById('chosenList');
+    chosenList.innerHTML = '';
+
+    const snapshot = await db.collection('chosenNames').get();
+    snapshot.forEach(doc => {
+        const li = document.createElement('li');
+        li.textContent = `${doc.id} = ${doc.data().count}`;
+        chosenList.appendChild(li);
+    });
+}
 
 function addName() {
     const nameInput = document.getElementById('nameInput');
@@ -122,7 +161,9 @@ function spin() {
             const numSegments = filteredNames.length;
             const anglePerSegment = (2 * Math.PI) / numSegments;
             const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
-            alert(`The selected activity is: ${filteredNames[selectedSegment].name}`);
+            const selectedName = filteredNames[selectedSegment].name;
+            alert(`The selected name is: ${selectedName}`);
+            saveChosenName(selectedName);
         }
     }, interval);
 }
