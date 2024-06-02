@@ -184,5 +184,19 @@ function toggleWeatherFilter() {
     drawWheel();
 }
 
-// Load names from Firestore when the page loads
-loadNamesFromFirestore();
+async function loadNamesFromFirestore() {
+    try {
+        const doc = await db.collection('names').doc('activityNames').get();
+        if (doc.exists) {
+            names = doc.data().names;
+            console.log('Names loaded from Firestore:', names);
+            updateNameList();
+            drawWheel(); // Call drawWheel() here
+        } else {
+            console.log('No document found in Firestore. Using default names.');
+        }
+    } catch (error) {
+        console.error('Error loading names from Firestore:', error);
+    }
+}
+
