@@ -9,7 +9,7 @@ const ctx = canvas.getContext('2d');
 let startAngle = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Call updateNameList and drawWheel after setting the initial names
+    console.log('DOM fully loaded and parsed');
     updateNameList();
     drawWheel();
 });
@@ -57,6 +57,7 @@ function updateNameList() {
         };
         nameList.appendChild(li);
     });
+    console.log('Updated name list:', filteredNames);
 }
 
 function drawWheel() {
@@ -84,6 +85,7 @@ function drawWheel() {
         ctx.fillText(nameObj.name, canvas.width / 2 - 10, 0);
         ctx.restore();
     });
+    console.log('Wheel drawn with names:', filteredNames);
 }
 
 function getRandomColor() {
@@ -95,5 +97,38 @@ function getRandomColor() {
     return color;
 }
 
-function spin(
+function spin() {
+    const filteredNames = filterWeather ? names.filter(name => name.weather) : names;
+    const spins = Math.floor(Math.random() * 10) + 5;
+    const spinTime = 3000;
+    const spinAngleStart = Math.random() * 10 + 10;
+    const spinAngleEnd = Math.random() * 10 + 5;
 
+    let currentAngle = startAngle;
+    let currentTime = 0;
+    const interval = 30;
+
+    const spinInterval = setInterval(() => {
+        currentTime += interval;
+        const spinProgress = currentTime / spinTime;
+        const easeInOut = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const angleDelta = easeInOut(spinProgress) * (spinAngleEnd - spinAngleStart) + spinAngleStart;
+        currentAngle += angleDelta;
+        startAngle = currentAngle % (2 * Math.PI);
+        drawWheel();
+
+        if (currentTime >= spinTime) {
+            clearInterval(spinInterval);
+            const numSegments = filteredNames.length;
+            const anglePerSegment = (2 * Math.PI) / numSegments;
+            const selectedSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
+            alert(`The selected name is: ${filteredNames[selectedSegment].name}`);
+        }
+    }, interval);
+}
+
+function toggleWeatherFilter() {
+    filterWeather = document.getElementById('weatherFilter').checked;
+    updateNameList();
+    drawWheel();
+}
