@@ -34,9 +34,9 @@
             transform: translateX(-50%);
             width: 10;
             height: 10;
-            border-left: 100px solid transparent;
-            border-right: 100px solid transparent;
-            border-bottom: 100px solid red;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 50px solid black;
         }
         #controls {
             text-align: center;
@@ -65,9 +65,9 @@
 </head>
 <body>
     <div>
+        <div id="knob"></div>
         <div id="wheel">
             <canvas id="wheelCanvas" width="300" height="300"></canvas>
-            <div id="knob"></div>
         </div>
         <div id="controls">
             <button onclick="spin()">Spin</button>
