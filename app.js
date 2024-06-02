@@ -1,4 +1,3 @@
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBwMJBgT8o79WqIo_FenBxTnOZUMLN69mc",
@@ -12,7 +11,10 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let names = [];
+let names = [
+    { name: 'hiking', weather: false, color: getRandomColor() },
+    { name: 'kayaking', weather: false, color: getRandomColor() }
+];
 
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
@@ -32,12 +34,12 @@ async function loadNamesFromFirestore() {
             console.log('Names loaded from Firestore:', names);
         } else {
             console.log('No document found in Firestore. Using default names.');
-            // Populate names here
+            // Populate names with default values
             names = [
                 { name: 'hiking', weather: false, color: getRandomColor() },
                 { name: 'kayaking', weather: false, color: getRandomColor() }
             ];
-            // Save initial names to Firestore
+            // Save default names to Firestore
             await saveNamesToFirestore();
         }
     } catch (error) {
@@ -129,16 +131,4 @@ async function saveChosenName(name) {
     } else {
         await chosenRef.set({ count: 1 });
     }
-}
-
-async function loadChosenCounts() {
-    const chosenList = document.getElementById('chosenList');
-    chosenList.innerHTML = '';
-
-    const snapshot = await db.collection('chosenNames').get();
-    snapshot.forEach(doc => {
-        const li = document.createElement('li');
-        li.textContent = `${doc.id} = ${doc.data().count}`;
-        chosenList.appendChild(li);
-    });
 }
