@@ -32,11 +32,11 @@
             top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 20px solid red;
+            width: 10;
+            height: 10;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 100px solid red;
         }
         #controls {
             text-align: center;
@@ -70,12 +70,6 @@
             <div id="knob"></div>
         </div>
         <div id="controls">
-            <input type="text" id="nameInput" placeholder="Enter New Activity">
-            <label>
-                Rainy Activity
-                <input type="checkbox" id="weatherInput">
-            </label>
-            <button onclick="addName()">Add Activity</button>
             <button onclick="spin()">Spin</button>
             <label>
                 Filter by Weather
