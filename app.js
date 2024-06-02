@@ -65,9 +65,9 @@ function addName() {
         weatherInput.checked = false; // Reset the weather checkbox
         updateNameList();
         drawWheel();
+        saveNamesToFirestore(); // Save names to Firestore after updating
     }
 }
-
 function removeName(index) {
     names.splice(index, 1);
     updateNameList();
@@ -168,8 +168,21 @@ function spin() {
     }, interval);
 }
 
+// Save names array to Firestore
+async function saveNamesToFirestore() {
+    try {
+        await db.collection('names').doc('activityNames').set({ names: names });
+        console.log('Names saved to Firestore:', names);
+    } catch (error) {
+        console.error('Error saving names to Firestore:', error);
+    }
+}
+
 function toggleWeatherFilter() {
     filterWeather = document.getElementById('weatherFilter').checked;
     updateNameList();
     drawWheel();
 }
+
+// Load names from Firestore when the page loads
+loadNamesFromFirestore();
