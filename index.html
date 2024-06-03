@@ -245,7 +245,7 @@ function spin() {
         const spinProgress = currentTime / spinTime;
         const easeInOut = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
         const angleDelta = easeInOut(spinProgress) * (spinAngleEnd - spinAngleStart) + spinAngleStart;
-        currentAngle += angleDelta * (2 * Math.PI / 360); // Convert angleDelta to radians
+        currentAngle += angleDelta * (Math.PI / 180); // Convert angleDelta to radians
         drawWheel();
 
         if (currentTime >= spinTime) {
