@@ -26,3 +26,17 @@ function spin() {
         }
     }, interval);
 }
+
+function toggleWeatherFilter() {
+    const weatherFilterCheckbox = document.getElementById('weatherFilter');
+    const filteredNames = names.filter(nameObj => {
+        return weatherFilterCheckbox.checked ? nameObj.weather === true : true;
+    });
+
+    if (filteredNames.length !== names.length) {
+        names = filteredNames;
+        drawWheel();
+    } else {
+        console.log('No filtering needed. All names are weather-compatible.');
+    }
+}
