@@ -62,7 +62,7 @@
                 <div id="knob"></div>
             </div>
             <div id="controls">
-                <button onclick="spin()">Spin</button>
+                <button id="spinButton">Spin</button>
                 <label>
                     Filter by Weather
                     <input type="checkbox" id="weatherFilter" onchange="toggleWeatherFilter()">
@@ -240,6 +240,9 @@ async function saveChosenName(name) {
         await chosenRef.set({ count: 1 });
     }
 }
+
+ document.getElementById('spinButton').addEventListener('click', spin);
+
 
 </script>
 </body>
