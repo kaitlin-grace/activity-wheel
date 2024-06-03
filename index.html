@@ -119,6 +119,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadNamesFromFirestore();
 });
 
+        
+async function saveNamesToFirestore(defaultNames) {
+    try {
+        // Generate random colors and set weather values for default names
+        const namesWithColorsAndWeather = defaultNames.map(nameObj => ({
+            name: nameObj.name,
+            weather: nameObj.weather,
+            color: getRandomColor()
+        }));
+
+        const firestoreRef = doc(collection(db, 'names'), 'activityNames');
+        console.log('Attempting to save names to Firestore:', namesWithColorsAndWeather);
+        await setDoc(firestoreRef, { names: namesWithColorsAndWeather });
+        console.log('Names saved to Firestore:', namesWithColorsAndWeather);
+    } catch (error) {
+        console.error('Error saving names to Firestore:', error);
+        if (error.code === 'permission-denied') {
+            console.error('Permission denied. Please check your Firestore security rules.');
+        } else {
+            console.error('An error occurred:', error);
+        }
+    }
+}
+
+        
 async function loadNamesFromFirestore() {
     try {
         const docRef = doc(db, 'names', 'activityNames');
@@ -163,22 +188,6 @@ function drawWheel() {
         ctx.restore();
     });
     console.log('Wheel drawn with names:', names);
-}
-
-async function saveNamesToFirestore(defaultNames) {
-    try {
-        const firestoreRef = doc(collection(db, 'names'), 'activityNames');
-        console.log('Attempting to save names to Firestore:', defaultNames);
-        await setDoc(firestoreRef, { names: defaultNames });
-        console.log('Names saved to Firestore:', defaultNames);
-    } catch (error) {
-        console.error('Error saving names to Firestore:', error);
-        if (error.code === 'permission-denied') {
-            console.error('Permission denied. Please check your Firestore security rules.');
-        } else {
-            console.error('An error occurred:', error);
-        }
-    }
 }
 
 
