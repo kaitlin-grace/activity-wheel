@@ -211,6 +211,13 @@
         return topName;
     }
 
+function getNameAtAngle(angle) {
+    const anglePerSegment = (2 * Math.PI) / names.length;
+    const adjustedAngle = (2 * Math.PI - angle + Math.PI / 2) % (2 * Math.PI);
+    const segmentIndex = Math.floor(adjustedAngle / anglePerSegment) % names.length;
+    return names[segmentIndex].name;
+}
+
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
@@ -295,6 +302,11 @@
         console.log('DOM fully loaded and parsed');
         await loadChosenNames();
     });
+
+        // Example usage: find the name at a specific angle
+    const angle = Math.PI / 4; // Example angle
+    const nameAtSpecificAngle = getNameAtAngle(angle);
+    console.log(`The name at angle ${angle} is: ${nameAtSpecificAngle}`);
 
     document.getElementById('spinButton').addEventListener('click', spin);
     document.getElementById('weatherFilter').addEventListener('change', toggleWeatherFilter);
