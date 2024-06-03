@@ -213,15 +213,15 @@ function drawWheel(namesArray = names) {
 }
 
 
-        function findNameAtTop() {
+     //   function findNameAtTop() {
     // Calculate the angle per segment
-    const anglePerSegment = (2 * Math.PI) / names.length;
+    //const anglePerSegment = (2 * Math.PI) / names.length;
     // Calculate the segment index at the top (0-degree position)
-    const topSegmentIndex = Math.floor(Math.PI / anglePerSegment) % names.length;
+    //const topSegmentIndex = Math.floor(Math.PI / anglePerSegment) % names.length;
     // Retrieve the name of the segment at the top
-    const topName = names[topSegmentIndex].name;
-    console.log(`The name at the top of the circle is: ${topName}`);
-}
+   // const topName = names[topSegmentIndex].name;
+   // console.log(`The name at the top of the circle is: ${topName}`);
+//}
 
 // Call this function at the beginning of your code
 findNameAtTop();
@@ -270,7 +270,6 @@ function spin() {
             // Calculate the segment index at the top (0-degree position)
             const topSegmentIndex = Math.floor(Math.PI / anglePerSegment) % names.length;
             // Retrieve the name of the segment at the top
-            const topName = names[topSegmentIndex].name;
             const selectedName = names[topSegmentIndex].name;
             alert(`The selected name is: ${selectedName}`);
             saveChosenName(selectedName); // Save the chosen name
