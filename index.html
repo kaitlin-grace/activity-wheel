@@ -265,17 +265,13 @@ function spin() {
 
         if (currentTime >= spinTime) {
             clearInterval(spinInterval);
-            // Calculate the selected segment based on the position of the wheel
-            const numSegments = names.length;
-            const anglePerSegment = (2 * Math.PI) / numSegments;
-            // Calculate the current angle normalized to 0 - 2 * Math.PI
-            const currentAngleNormalized = (startAngle + 2 * Math.PI) % (2 * Math.PI);
-            // Calculate the offset of the current angle from the top
-            const offsetAngle = (2 * Math.PI - currentAngleNormalized) % (2 * Math.PI);
-            // Calculate the selected segment index
-            const currentSegment = Math.floor(offsetAngle / anglePerSegment);
-            // Retrieve the name of the selected segment
-            const selectedName = names[currentSegment].name;
+            // Calculate the angle per segment
+            const anglePerSegment = (2 * Math.PI) / names.length;
+            // Calculate the segment index at the top (0-degree position)
+            const topSegmentIndex = Math.floor(Math.PI / anglePerSegment) % names.length;
+            // Retrieve the name of the segment at the top
+            const topName = names[topSegmentIndex].name;
+            const selectedName = names[topSegmentIndex].name;
             alert(`The selected name is: ${selectedName}`);
             saveChosenName(selectedName); // Save the chosen name
             loadChosenNames(); // Reload and display chosen names
