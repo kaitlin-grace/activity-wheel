@@ -236,17 +236,19 @@ function spin() {
 
         if (currentTime >= spinTime) {
             clearInterval(spinInterval);
+            // Calculate the selected segment based on the final position of the wheel
             const numSegments = names.length;
             const anglePerSegment = (2 * Math.PI) / numSegments;
             const currentAngleNormalized = (startAngle + Math.PI * 2) % (Math.PI * 2);
-            const currentSegment = Math.floor(currentAngleNormalized / anglePerSegment);
-            const selectedName = names[currentSegment].name;
+            const currentSegment = Math.floor((currentAngleNormalized + anglePerSegment / 2) / anglePerSegment);
+            const selectedName = names[currentSegment % numSegments].name;
             alert(`The selected name is: ${selectedName}`);
             saveChosenName(selectedName); // Save the chosen name
             loadChosenNames(); // Reload and display chosen names
         }
     }, interval);
 }
+
 
 async function saveChosenName(name) {
     try {
