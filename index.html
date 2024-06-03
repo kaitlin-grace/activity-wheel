@@ -112,23 +112,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadNamesFromFirestore();
 });
 
-        async function loadNamesFromFirestore() {
-            try {
-                const docRef = doc(db, 'names', 'activityNames');
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    names = docSnap.data().names;
-                    console.log('Names loaded from Firestore:', names);
-                } else {
-                    console.log('No document found in Firestore. Using default names.');
-                    // Save default names to Firestore
-                    await saveNamesToFirestore();
-                }
-                drawWheel(); // Draw the wheel after loading names
-            } catch (error) {
-                console.error('Error loading names from Firestore:', error);
-            }
+async function loadNamesFromFirestore() {
+    try {
+        const docRef = doc(db, 'names', 'activityNames');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            names = docSnap.data().names;
+            console.log('Names loaded from Firestore:', names);
+        } else {
+            console.log('No document found in Firestore. Using default names.');
+            // Save default names to Firestore
+            await saveNamesToFirestore(names);
         }
+        drawWheel(); // Draw the wheel after loading names
+    } catch (error) {
+        console.error('Error loading names from Firestore:', error);
+    }
+}
+
 
 function drawWheel() {
     const numSegments = names.length;
@@ -157,13 +158,12 @@ function drawWheel() {
     console.log('Wheel drawn with names:', names);
 }
 
-// Save names array to Firestore
-async function saveNamesToFirestore() {
+async function saveNamesToFirestore(defaultNames) {
     try {
-        const firestoreRef = db.collection('names').doc('activityNames');
-        console.log('Attempting to save names to Firestore:', names);
-        await firestoreRef.set({ names: names });
-        console.log('Names saved to Firestore:', names);
+        const firestoreRef = doc(collection(db, 'names'), 'activityNames');
+        console.log('Attempting to save names to Firestore:', defaultNames);
+        await setDoc(firestoreRef, { names: defaultNames });
+        console.log('Names saved to Firestore:', defaultNames);
     } catch (error) {
         console.error('Error saving names to Firestore:', error);
         if (error.code === 'permission-denied') {
@@ -173,6 +173,7 @@ async function saveNamesToFirestore() {
         }
     }
 }
+
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
