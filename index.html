@@ -259,7 +259,7 @@ async function loadChosenNames() {
     const chosenList = document.getElementById('chosenList');
     chosenList.innerHTML = ''; // Clear the existing list
     try {
-        const snapshot = await firebase.firestore().collection('chosenNames').get();
+        const snapshot = await getDocs(collection(db, 'chosenNames'));
         snapshot.forEach(doc => {
             const chosenName = doc.id;
             const chosenCount = doc.data().count;
