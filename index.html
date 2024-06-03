@@ -191,8 +191,6 @@ function drawWheel(namesArray = names) {
     console.log('Wheel drawn with names:', namesArray);
 }
 
-
-
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -201,6 +199,15 @@ function getRandomColor() {
     }
     return color;
 }
+
+function toggleWeatherFilter() {
+      const weatherFilterCheckbox = document.getElementById('weatherFilter');
+      const filteredNames = weatherFilterCheckbox.checked ?
+          names.filter(nameObj => nameObj.weather) : // Filter names with weather = true
+          names; // Show all names
+
+      drawWheel(filteredNames); // Redraw the wheel with filtered names
+  }
 
 function spin() {
     const spins = Math.floor(Math.random() * 10) + 5;
@@ -243,10 +250,8 @@ async function saveChosenName(name) {
 }
 
  document.getElementById('spinButton').addEventListener('click', spin);
-
-        document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('weatherFilter').addEventListener('change', toggleWeatherFilter);
-});
+        
+ document.getElementById('weatherFilter').addEventListener('change', toggleWeatherFilter);
 
 
 </script>
