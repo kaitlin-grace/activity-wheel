@@ -230,34 +230,34 @@ function findNameAtTop() {
         drawWheel(filteredNames);
     }
 
-    function spin() {
-        const spins = Math.floor(Math.random() * 10) + 5;
-        const spinTime = 3000;
-        const spinAngleStart = Math.random() * 10 + 10;
-        const spinAngleEnd = Math.random() * 10 + 5;
+function spin() {
+    const spins = Math.floor(Math.random() * 10) + 5;
+    const spinTime = 3000;
+    const spinAngleStart = Math.random() * 10 + 10;
+    const spinAngleEnd = Math.random() * 10 + 5;
 
-        let currentAngle = startAngle;
-        let currentTime = 0;
-        const interval = 30;
+    let currentAngle = startAngle; // Use startAngle as the initial currentAngle
+    let currentTime = 0;
+    const interval = 30;
 
-        const spinInterval = setInterval(() => {
-            currentTime += interval;
-            const spinProgress = currentTime / spinTime;
-            const easeInOut = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-            const angleDelta = easeInOut(spinProgress) * (spinAngleEnd - spinAngleStart) + spinAngleStart;
-            currentAngle += angleDelta;
-            startAngle = currentAngle % (2 * Math.PI);
-            drawWheel();
+    const spinInterval = setInterval(() => {
+        currentTime += interval;
+        const spinProgress = currentTime / spinTime;
+        const easeInOut = (t) => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const angleDelta = easeInOut(spinProgress) * (spinAngleEnd - spinAngleStart) + spinAngleStart;
+        currentAngle += angleDelta * (2 * Math.PI / 360); // Convert angleDelta to radians
+        drawWheel();
 
-            if (currentTime >= spinTime) {
-                clearInterval(spinInterval); // Stop the spinning
-                const selectedName = findNameAtTop(); // Get the name at the top
-                alert(`The selected name is: ${selectedName}`);
-                saveChosenName(selectedName); // Save the chosen name
-                loadChosenNames(); // Reload and display chosen names
-            }
-        }, interval);
-    }
+        if (currentTime >= spinTime) {
+            clearInterval(spinInterval); // Stop the spinning
+            startAngle = currentAngle % (2 * Math.PI); // Update startAngle with the final currentAngle
+            const selectedName = findNameAtTop(); // Get the name at the top
+            alert(`The selected name is: ${selectedName}`);
+            saveChosenName(selectedName); // Save the chosen name
+            loadChosenNames(); // Reload and display chosen names
+        }
+    }, interval);
+}
 
     async function saveChosenName(name) {
         try {
