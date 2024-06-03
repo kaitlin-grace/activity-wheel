@@ -1,7 +1,4 @@
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc, collection, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  // https://firebase.google.com/docs/web/setup#available-libraries
+
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -13,11 +10,8 @@
     appId: "1:364459720561:web:c08e03c746b08c642c00d0"
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-        // here is my javascript code, formerly located as 'app.js'. Adding here to ensure it is connected to firestore within the module
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 // Function to initialize default names array
 function initializeDefaultNames() {
