@@ -254,13 +254,13 @@ async function saveChosenName(name) {
     }
 }
 
-        // Function to load chosen names and their counts from Firestore and display them on the website
+// Function to load chosen names and their counts from Firestore and display them on the website
 async function loadChosenNames() {
     const chosenList = document.getElementById('chosenList');
     chosenList.innerHTML = ''; // Clear the existing list
 
     try {
-        const snapshot = await db.collection('chosenNames').get();
+        const snapshot = await firebase.firestore().collection('chosenNames').get();
         snapshot.forEach(doc => {
             const chosenName = doc.id;
             const chosenCount = doc.data().count;
