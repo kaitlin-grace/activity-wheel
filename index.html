@@ -212,7 +212,6 @@ function toggleWeatherFilter() {
       drawWheel(filteredNames); // Redraw the wheel with filtered names
   }
 
-// Update the spin function to save the chosen name and update its count
 function spin() {
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
@@ -234,8 +233,10 @@ function spin() {
 
         if (currentTime >= spinTime) {
             clearInterval(spinInterval);
-            const selectedSegment = Math.floor((startAngle + Math.PI / 2) / (2 * Math.PI / names.length)) % names.length;
-            const selectedName = names[selectedSegment].name;
+            const numSegments = names.length;
+            const anglePerSegment = (2 * Math.PI) / numSegments;
+            const currentSegment = Math.floor((startAngle + Math.PI / 2) / anglePerSegment) % numSegments;
+            const selectedName = names[currentSegment].name;
             alert(`The selected name is: ${selectedName}`);
             saveChosenName(selectedName); // Save the chosen name
             loadChosenNames(); // Reload and display chosen names
