@@ -263,10 +263,12 @@ function spin() {
             const selectedName = names[currentSegment].name;
             alert(`The selected name is: ${selectedName}`);
             saveChosenName(selectedName); // Save the chosen name
+            chosenName = names[0].name; // Set chosenName to the name at 0 degrees
             loadChosenNames(); // Reload and display chosen names
         }
     }, interval);
 }
+
 
 
 
