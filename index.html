@@ -148,7 +148,7 @@ async function loadNamesFromFirestore() {
     try {
         const docRef = doc(db, 'names', 'activityNames');
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists() && docSnap.data().names) { // Check if names field exists
+        if (docSnap.exists() && docSnap.data().names && docSnap.data().names.length > 0) {
             names = docSnap.data().names;
             console.log('Names loaded from Firestore:', names);
         } else {
