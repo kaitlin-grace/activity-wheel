@@ -148,11 +148,11 @@ async function loadNamesFromFirestore() {
     try {
         const docRef = doc(db, 'names', 'activityNames');
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
+        if (docSnap.exists() && docSnap.data().names) { // Check if names field exists
             names = docSnap.data().names;
             console.log('Names loaded from Firestore:', names);
         } else {
-            console.log('No document found in Firestore. Using default names.');
+            console.log('No document found in Firestore or names field is empty. Using default names.');
             // Save default names to Firestore
             await saveNamesToFirestore(names);
         }
@@ -161,6 +161,7 @@ async function loadNamesFromFirestore() {
         console.error('Error loading names from Firestore:', error);
     }
 }
+
 
 
 function drawWheel() {
