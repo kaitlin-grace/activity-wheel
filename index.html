@@ -261,9 +261,9 @@ function findNameAtTop() {
 
             if (currentTime >= spinTime) {
                 clearInterval(spinInterval); // Stop the spinning
+                console.log(`The name at angle ${angle} is: ${nameAtSpecificAngle}`);
                 const selectedName = findNameAtTop(); // Get the name at the top
                 alert(`The selected name is: ${selectedName}`);
-                console.log(`The name at angle ${angle} is: ${nameAtSpecificAngle}`);
                 saveChosenName(selectedName); // Save the chosen name
                 loadChosenNames(); // Reload and display chosen names
             }
