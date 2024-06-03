@@ -98,10 +98,17 @@
 
         // here is my javascript code, formerly located as 'app.js'. Adding here to ensure it is connected to firestore within the module
 
-let names = [
-    { name: 'hiking', weather: false, color: getRandomColor() },
-    { name: 'kayaking', weather: false, color: getRandomColor() }
-];
+// Function to initialize default names array
+function initializeDefaultNames() {
+    return [
+        { name: 'hiking', weather: false, color: getRandomColor() },
+        { name: 'kayaking', weather: false, color: getRandomColor() }
+        // Add more default names here if needed
+    ];
+}
+
+// Set initial names array using the initialize function
+let names = initializeDefaultNames();
 
 const canvas = document.getElementById('wheelCanvas');
 const ctx = canvas.getContext('2d');
