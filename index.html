@@ -244,15 +244,21 @@ function spin() {
 }
 
 async function saveChosenName(name) {
-    const chosenRef = collection('chosenNames').doc(name);
-    const doc = await chosenRef.get();
-    if (doc.exists) {
-        const currentCount = doc.data().count;
-        await chosenRef.update({ count: currentCount + 1 });
-    } else {
-        await chosenRef.set({ count: 1 });
+    try {
+        const chosenRef = doc(collection(db, 'chosenNames'), name);
+        const docSnap = await getDoc(chosenRef);
+
+        if (docSnap.exists()) {
+            const currentCount = docSnap.data().count;
+            await updateDoc(chosenRef, { count: currentCount + 1 });
+        } else {
+            await setDoc(chosenRef, { count: 1 });
+        }
+    } catch (error) {
+        console.error('Error saving chosen name:', error);
     }
 }
+
 
 // Function to load chosen names and their counts from Firestore and display them on the website
 async function loadChosenNames() {
