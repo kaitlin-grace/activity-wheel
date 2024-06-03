@@ -212,6 +212,7 @@ function toggleWeatherFilter() {
       drawWheel(filteredNames); // Redraw the wheel with filtered names
   }
 
+// Update the spin function to save the chosen name and update its count
 function spin() {
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
@@ -236,7 +237,8 @@ function spin() {
             const selectedSegment = Math.floor((startAngle + Math.PI / 2) / (2 * Math.PI / names.length)) % names.length;
             const selectedName = names[selectedSegment].name;
             alert(`The selected name is: ${selectedName}`);
-            saveChosenName(selectedName);
+            saveChosenName(selectedName); // Save the chosen name
+            loadChosenNames(); // Reload and display chosen names
         }
     }, interval);
 }
@@ -252,6 +254,31 @@ async function saveChosenName(name) {
     }
 }
 
+        // Function to load chosen names and their counts from Firestore and display them on the website
+async function loadChosenNames() {
+    const chosenList = document.getElementById('chosenList');
+    chosenList.innerHTML = ''; // Clear the existing list
+
+    try {
+        const snapshot = await db.collection('chosenNames').get();
+        snapshot.forEach(doc => {
+            const chosenName = doc.id;
+            const chosenCount = doc.data().count;
+            const listItem = document.createElement('li');
+            listItem.textContent = `${chosenName}: ${chosenCount}`;
+            chosenList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error loading chosen names:', error);
+    }
+}
+
+ // Call the function to load and display chosen names when the page is loaded
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM fully loaded and parsed');
+    await loadChosenNames();
+});       
+        
  document.getElementById('spinButton').addEventListener('click', spin);
         
  document.getElementById('weatherFilter').addEventListener('change', toggleWeatherFilter);
