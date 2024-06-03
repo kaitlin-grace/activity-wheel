@@ -28,7 +28,7 @@ function spin(startAngle) {
     }, interval);
 }
 
-function toggleWeatherFilter() {
+function toggleWeatherFilter(names) {
     const weatherFilterCheckbox = document.getElementById('weatherFilter');
     const filteredNames = names.filter(nameObj => {
         return weatherFilterCheckbox.checked ? nameObj.weather === true : true;
