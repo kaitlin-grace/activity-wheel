@@ -202,20 +202,25 @@
         });
     }
 
-    function findNameAtTop() {
-        const anglePerSegment = (2 * Math.PI) / names.length;
-        const adjustedAngle = (startAngle + Math.PI / 2) % (2 * Math.PI);
-        const topSegmentIndex = Math.floor(adjustedAngle / anglePerSegment);
-        const topName = names[topSegmentIndex].name;
-        console.log(`The name at the top of the circle is: ${topName}`);
-        return topName;
-    }
+ //   function findNameAtTop() {
+ //       const anglePerSegment = (2 * Math.PI) / names.length;
+ //       const adjustedAngle = (startAngle + Math.PI / 2) % (2 * Math.PI);
+ //       const topSegmentIndex = Math.floor(adjustedAngle / anglePerSegment);
+ //       const topName = names[topSegmentIndex].name;
+ //       console.log(`The name at the top of the circle is: ${topName}`);
+ //       return topName;
+  //  }
 
 function getNameAtAngle(angle) {
     const anglePerSegment = (2 * Math.PI) / names.length;
     const adjustedAngle = (2 * Math.PI - angle + Math.PI / 2) % (2 * Math.PI);
     const segmentIndex = Math.floor(adjustedAngle / anglePerSegment) % names.length;
     return names[segmentIndex].name;
+}
+
+        // Function to find the name at the top of the wheel
+function findNameAtTop() {
+    return getNameAtAngle(startAngle);
 }
 
     function getRandomColor() {
@@ -258,8 +263,6 @@ function getNameAtAngle(angle) {
                 clearInterval(spinInterval); // Stop the spinning
                 const selectedName = findNameAtTop(); // Get the name at the top
                 alert(`The selected name is: ${selectedName}`);
-                const angle = Math.PI / 4; // Example angle
-                const nameAtSpecificAngle = getNameAtAngle(angle);
                 console.log(`The name at angle ${angle} is: ${nameAtSpecificAngle}`);
                 saveChosenName(selectedName); // Save the chosen name
                 loadChosenNames(); // Reload and display chosen names
