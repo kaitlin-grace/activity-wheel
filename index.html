@@ -249,7 +249,8 @@ async function saveChosenName(name) {
         const docSnap = await getDoc(chosenRef);
 
         if (docSnap.exists()) {
-            const currentCount = docSnap.data().count;
+            let currentCount = docSnap.data().count || 0; // If count doesn't exist or is undefined, default to 0
+            currentCount = isNaN(currentCount) ? 0 : currentCount; // If currentCount is NaN, set it to 0
             await updateDoc(chosenRef, { count: currentCount + 1 });
         } else {
             await setDoc(chosenRef, { count: 1 });
