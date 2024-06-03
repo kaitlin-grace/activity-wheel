@@ -176,32 +176,34 @@
         }
     }
 
-    function drawWheel(namesArray = names) {
-        const numSegments = namesArray.length;
-        const anglePerSegment = (2 * Math.PI) / numSegments;
+function drawWheel(namesArray = names) {
+    const numSegments = namesArray.length;
+    const anglePerSegment = (2 * Math.PI) / numSegments;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        namesArray.forEach((nameObj, index) => {
-            const angle = startAngle + index * anglePerSegment;
-            ctx.beginPath();
-            ctx.moveTo(canvas.width / 2, canvas.height / 2);
-            ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, angle, angle + anglePerSegment);
-            ctx.fillStyle = nameObj.color;
-            ctx.fill();
-            ctx.stroke();
+    let currentAngle = 0;
+    namesArray.forEach((nameObj, index) => {
+        const angle = currentAngle + anglePerSegment / 2; // Calculate the angle for the text
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, canvas.height / 2);
+        ctx.arc(canvas.width / 2, canvas.height / 2, canvas.width / 2, currentAngle, currentAngle + anglePerSegment);
+        ctx.fillStyle = nameObj.color;
+        ctx.fill();
+        ctx.stroke();
 
-            ctx.save();
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            ctx.rotate(angle + anglePerSegment / 2);
-            ctx.textAlign = "right";
-            ctx.fillStyle = "#000";
-            ctx.font = "16px Arial";
-            ctx.fillText(nameObj.name, canvas.width / 2 - 10, 0);
-            ctx.restore();
-        });
-    }
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(angle);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "#000";
+        ctx.font = "16px Arial";
+        ctx.fillText(nameObj.name, canvas.width / 2 - 20, 10); // Adjust the text position
+        ctx.restore();
 
+        currentAngle += anglePerSegment; // Update the current angle for the next segment
+    });
+}
 function findNameAtTop() {
     const anglePerSegment = (2 * Math.PI) / names.length;
     const adjustedAngle = (startAngle + Math.PI / 2) % (2 * Math.PI);
