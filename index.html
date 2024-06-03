@@ -244,6 +244,10 @@ async function saveChosenName(name) {
 
  document.getElementById('spinButton').addEventListener('click', spin);
 
+        document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('weatherFilter').addEventListener('change', toggleWeatherFilter);
+});
+
 
 </script>
 </body>
