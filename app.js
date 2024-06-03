@@ -1,4 +1,4 @@
-function spin() {
+function spin(startAngle) {
     const spins = Math.floor(Math.random() * 10) + 5;
     const spinTime = 3000;
     const spinAngleStart = Math.random() * 10 + 10;
