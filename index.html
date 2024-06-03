@@ -258,6 +258,9 @@ function getNameAtAngle(angle) {
                 clearInterval(spinInterval); // Stop the spinning
                 const selectedName = findNameAtTop(); // Get the name at the top
                 alert(`The selected name is: ${selectedName}`);
+                const angle = Math.PI / 4; // Example angle
+                const nameAtSpecificAngle = getNameAtAngle(angle);
+                console.log(`The name at angle ${angle} is: ${nameAtSpecificAngle}`);
                 saveChosenName(selectedName); // Save the chosen name
                 loadChosenNames(); // Reload and display chosen names
             }
