@@ -254,12 +254,12 @@ async function saveChosenName(name) {
     }
 }
 
-        // Function to load chosen names and their counts from Firestore and display them on the website
+// Function to load chosen names and their counts from Firestore and display them on the website
 async function loadChosenNames() {
     const chosenList = document.getElementById('chosenList');
     chosenList.innerHTML = ''; // Clear the existing list
     try {
-        const snapshot = await collection('chosenNames').get();
+        const snapshot = await firebase.firestore().collection('chosenNames').get();
         snapshot.forEach(doc => {
             const chosenName = doc.id;
             const chosenCount = doc.data().count;
@@ -272,11 +272,12 @@ async function loadChosenNames() {
     }
 }
 
- // Call the function to load and display chosen names when the page is loaded
+// Call the function to load and display chosen names when the page is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM fully loaded and parsed');
     await loadChosenNames();
-});       
+});   
+  
         
  document.getElementById('spinButton').addEventListener('click', spin);
         
